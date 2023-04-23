@@ -198,10 +198,10 @@ class Cell:
                          ((self.col + 1) * 90, (self.row + 1) * 90), 7)
 
         if self.value != 0:
-            num_surf = num_font.render(self.value, 1, (0, 0, 0))
-            num_rect = num_surf.get_rect(center=((self.col * 90) + 90 // 2,
-                                                 (self.row * 90) + 90 // 2))
-            self.screen.blit(num_surf, num_rect)
+           num_surf = num_font.render(str(self.value), 1, (0, 0, 0))
+           num_rect = num_surf.get_rect(center=((self.col * 90) + 90 // 2,
+                                                (self.row * 90) + 90 // 2))
+           self.screen.blit(num_surf, num_rect)
 
 
 
@@ -213,6 +213,10 @@ class Board:
         self.height = height
         self.screen = screen
         self.difficulty = difficulty
+        self.board = generate_sudoku(9, 30)
+        self.cells = [[Cell(self.board[row][col], row, col, self.screen)
+                       for col in range(9)]
+                      for row in range(9)]
 
     def draw(self):
         for i in range(0, 4):
@@ -220,6 +224,9 @@ class Board:
         for i in range(0, 4):
             pygame.draw.line(self.screen, LINE_COLOR, (i * SQUARE_SIZE, 0), (i * SQUARE_SIZE, HEIGHT), 15)
 
+        for i in range(9):
+            for j in range(9):
+                self.cells[i][j].draw()
 
 
     def select(self, row, col):

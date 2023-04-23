@@ -15,8 +15,6 @@ screen.fill(BG_COLOR)
 
 board_surf = Board(WIDTH, HEIGHT, screen, 30)
 board_surf.draw()
-cell_surf = Cell('4', 1, 2, screen)
-cell_surf.draw()
 
 
 while True:
