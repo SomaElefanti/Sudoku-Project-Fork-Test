@@ -1,10 +1,5 @@
 import math, random
 
-"""
-This was adapted from a GeeksforGeeks article "Program for Sudoku Generator" by Aarti_Rathi and Ankur Trisal
-https://www.geeksforgeeks.org/program-sudoku-generator/
-"""
-
 
 class SudokuGenerator:
 
@@ -171,7 +166,22 @@ class SudokuGenerator:
                 continue
 
 
-# class Cell(value, row, col, screen):
+class Cell:
+
+    def __init__(self, value, row, col, screen):
+        self.value = value
+        self.row = row
+        self.col = col
+        self.screen = screen
+
+    def set_cell_value(self, value):
+        self.value = value
+
+    def set_sketched_value(self, value):
+        self.sketched_value = value
+
+    
+    pass
 
 '''
 DO NOT CHANGE
