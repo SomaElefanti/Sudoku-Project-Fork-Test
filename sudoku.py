@@ -1,25 +1,30 @@
-import sudoku_generator
+import pygame, sys
+from constants import *
+from sudoku_generator import *
 
-board1 = sudoku_generator.SudokuGenerator(9, 30)
+pygame.init()
+pygame.display.set_caption('Sudoku 111')
+icon = pygame.image.load('sudokuicon.png')
+# Source: https://www.flaticon.com/free-icon/pastime_3401126?term=sudoku&related_id=3401126
+pygame.display.set_icon(icon)
+num_font = pygame.font.SysFont("comicsansms", 200)
 
-sudoku_generator.SudokuGenerator.print_board(board1)
 
-print(sudoku_generator.SudokuGenerator.valid_in_row(board1, 2, 0))
-print(sudoku_generator.SudokuGenerator.valid_in_row(board1, 2, 3))
+screen = pygame.display.set_mode((WIDTH, HEIGHT))
+screen.fill(BG_COLOR)
 
-print(sudoku_generator.SudokuGenerator.valid_in_col(board1, 2, 0))
-print(sudoku_generator.SudokuGenerator.valid_in_col(board1, 2, 3))
+board_surf = Board(WIDTH, HEIGHT, screen, 30)
+board_surf.draw()
+cell_surf = Cell('4', 1, 2, screen)
+cell_surf.draw()
 
-print(sudoku_generator.SudokuGenerator.valid_in_box(board1, 3, 0, 0))
-print(sudoku_generator.SudokuGenerator.valid_in_box(board1, 3, 0, 3))
 
-print(sudoku_generator.SudokuGenerator.is_valid(board1, 2, 2, 0))
-print(sudoku_generator.SudokuGenerator.is_valid(board1, 2, 2, 3))
+while True:
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            pygame.quit()
+            sys.exit()
 
-sudoku_generator.SudokuGenerator.fill_values(board1)
+    pygame.display.update()
 
-sudoku_generator.SudokuGenerator.print_board(board1)
 
-sudoku_generator.SudokuGenerator.remove_cells(board1)
-print()
-sudoku_generator.SudokuGenerator.print_board(board1)
