@@ -12,7 +12,7 @@ class SudokuGenerator:
         self.row_length = row_length
         self.removed_cells = removed_cells
         self.board = [[0 for i in range(row_length)] for j in range(row_length)]
-        self.box_length = math.sqrt(row_length)
+        self.box_length = int(math.sqrt(row_length))
 
     def get_board(self):
         return self.board
@@ -77,28 +77,24 @@ class SudokuGenerator:
             validity = False
         return validity
 
-
-    '''
-    Fills the specified 3x3 box with values
-    For each position, generates a random digit which has not yet been used in the box
-	Parameters:
-	row_start and col_start are the starting indices of the box to check
-	i.e. the box is from (row_start, col_start) to (row_start+2, col_start+2)
-	Return: None
-    '''
-
     def fill_box(self, row_start, col_start):
-        pass
-
-    '''
-    Fills the three boxes along the main diagonal of the board
-    These are the boxes which start at (0,0), (3,3), and (6,6)
-	Parameters: None
-	Return: None
-    '''
+        used_numbers = set()
+        box = [[self.board[i][j] for j in range(col_start, col_start + 2)] for i in range(row_start, row_start + 3)]
+        for i in range(len(box)):
+            for j in range(len(box[i])):
+                if box[i][j] != 0:
+                    used_numbers.add(box[i][j])
+        for i in range(row_start, row_start+3):
+            for j in range(col_start, col_start+3):
+                available_numbers = set(set(range(1, 10)) - used_numbers)
+                random_number = int(random.sample(sorted(available_numbers), 1)[0])
+                self.board[i][j] = random_number
+                used_numbers.add(random_number)
 
     def fill_diagonal(self):
-        pass
+        self.fill_box(0, 0)
+        self.fill_box(3, 3)
+        self.fill_box(6, 6)
 
     '''
     DO NOT CHANGE
@@ -164,7 +160,16 @@ class SudokuGenerator:
     '''
 
     def remove_cells(self):
-        pass
+        cell_num = self.removed_cells
+        while cell_num > 0:
+            row_num = random.randrange(0, 9)
+            col_num = random.randrange(0, 9)
+            if self.board[row_num][col_num] != 0:
+                self.board[row_num][col_num] = 0
+                cell_num -= 1
+            else:
+                continue
+
 
 # class Cell(value, row, col, screen):
 
