@@ -9,3 +9,9 @@ print(sudoku_generator.SudokuGenerator.valid_in_row(board1, 2, 3))
 
 print(sudoku_generator.SudokuGenerator.valid_in_col(board1, 2, 0))
 print(sudoku_generator.SudokuGenerator.valid_in_col(board1, 2, 3))
+
+print(sudoku_generator.SudokuGenerator.valid_in_box(board1, 3, 0, 0))
+print(sudoku_generator.SudokuGenerator.valid_in_box(board1, 3, 0, 3))
+
+print(sudoku_generator.SudokuGenerator.is_valid(board1, 2, 2, 0))
+print(sudoku_generator.SudokuGenerator.is_valid(board1, 2, 2, 3))

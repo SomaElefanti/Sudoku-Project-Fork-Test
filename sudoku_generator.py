@@ -42,31 +42,41 @@ class SudokuGenerator:
                 isin = True
         return isin
 
-    '''
-	Determines if num is contained in the 3x3 box specified on the board
-    If num is in the specified box starting at (row_start, col_start), return False.
-    Otherwise, return True
-	Parameters:
-	row_start and col_start are the starting indices of the box to check
-	i.e. the box is from (row_start, col_start) to (row_start+2, col_start+2)
-	num is the value we are looking for in the box
-	Return: boolean
-    '''
-
     def valid_in_box(self, row_start, col_start, num):
-        pass
-
-    '''
-    Determines if it is valid to enter num at (row, col) in the board
-    This is done by checking that num is unused in the appropriate, row, column, and box
-	Parameters:
-	row and col are the row index and col index of the cell to check in the board
-	num is the value to test if it is safe to enter in this cell
-	Return: boolean
-    '''
+        box = [[self.board[i][j] for j in range(col_start, col_start+2)] for i in range(row_start, row_start+3)]
+        for i in range(len(box)):
+            if num in box[i]:
+                isin = False
+                break
+            else:
+                isin = True
+        return isin
 
     def is_valid(self, row, col, num):
-        pass
+        if self.valid_in_row(row, num):
+            if self.valid_in_col(col, num):
+                if row in range(0, 3):
+                    row_start = 0
+                elif row in range(3, 6):
+                    row_start = 3
+                elif row in range(6, 9):
+                    row_start = 6
+                if col in range(0, 3):
+                    col_start = 0
+                elif col in range(3, 6):
+                    col_start = 3
+                elif col in range(6, 9):
+                    col_start = 6
+                if self.valid_in_box(row_start, col_start, num):
+                    validity = True
+                else:
+                    validity = False
+            else:
+                validity = False
+        else:
+            validity = False
+        return validity
+
 
     '''
     Fills the specified 3x3 box with values
@@ -156,7 +166,7 @@ class SudokuGenerator:
     def remove_cells(self):
         pass
 
-class Cell(value, row, col, screen):
+# class Cell(value, row, col, screen):
 
 '''
 DO NOT CHANGE
