@@ -15,13 +15,23 @@ screen.fill(BG_COLOR)
 
 board_surf = Board(WIDTH, HEIGHT, screen, 30)
 board_surf.draw()
-
+previous_cell = None
 
 while True:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             pygame.quit()
             sys.exit()
+        if event.type == pygame.MOUSEBUTTONDOWN:
+            x, y = event.pos
+            row = y // 70
+            col = x // 70
+            cell_selected = board_surf.select(row, col)
+            if previous_cell is not None:
+                previous_cell.selected = False
+                previous_cell.draw()
+            cell_selected.draw()  # select the new cell
+            previous_cell = cell_selected
 
     pygame.display.update()
 

@@ -175,6 +175,7 @@ class Cell:
         self.col = col
         self.screen = screen
         self.sketched_value = None
+        self.selected = False
 
     def set_cell_value(self, value):
         self.value = value
@@ -183,24 +184,24 @@ class Cell:
         self.sketched_value = value
 
     def draw(self):
-        #if selected:
-            #line_colour = (153, 12, 12)
-        #else:
-        line_colour = LINE_COLOR
-        num_font = pygame.font.SysFont("comicsansms", 90)
-        pygame.draw.line(self.screen, line_colour, (self.col * 90, self.row * 90),
-                         (self.col * 90, (self.row + 1) * 90), 7)
-        pygame.draw.line(self.screen, line_colour, (self.col * 90, self.row * 90),
-                         ((self.col + 1) * 90, self.row * 90), 7)
-        pygame.draw.line(self.screen, line_colour, ((self.col + 1) * 90, self.row * 90),
-                         ((self.col + 1) * 90, (self.row + 1) * 90), 7)
-        pygame.draw.line(self.screen, line_colour, (self.col * 90, (self.row + 1) * 90),
-                         ((self.col + 1) * 90, (self.row + 1) * 90), 7)
+        if self.selected:
+            line_colour = (153, 12, 12)
+        else:
+            line_colour = LINE_COLOR
+        num_font = pygame.font.SysFont("comicsansms", 70)
+        pygame.draw.line(self.screen, line_colour, (self.col * 70, self.row * 70),
+                         (self.col * 70, (self.row + 1) * 70), 5)
+        pygame.draw.line(self.screen, line_colour, (self.col * 70, self.row * 70),
+                         ((self.col + 1) * 70, self.row * 70), 5)
+        pygame.draw.line(self.screen, line_colour, ((self.col + 1) * 70, self.row * 70),
+                         ((self.col + 1) * 70, (self.row + 1) * 70), 5)
+        pygame.draw.line(self.screen, line_colour, (self.col * 70, (self.row + 1) * 70),
+                         ((self.col + 1) * 70, (self.row + 1) * 70), 5)
 
         if self.value != 0:
            num_surf = num_font.render(str(self.value), 1, (0, 0, 0))
-           num_rect = num_surf.get_rect(center=((self.col * 90) + 90 // 2,
-                                                (self.row * 90) + 90 // 2))
+           num_rect = num_surf.get_rect(center=((self.col * 70) + 70 // 2,
+                                                (self.row * 70) + 70 // 2))
            self.screen.blit(num_surf, num_rect)
 
 
@@ -220,17 +221,17 @@ class Board:
 
     def draw(self):
         for i in range(0, 4):
-            pygame.draw.line(self.screen, LINE_COLOR, (0, i * SQUARE_SIZE), (WIDTH, i * SQUARE_SIZE), 15)
+            pygame.draw.line(self.screen, LINE_COLOR, (0, i * SQUARE_SIZE), (WIDTH, i * SQUARE_SIZE), 10)
         for i in range(0, 4):
-            pygame.draw.line(self.screen, LINE_COLOR, (i * SQUARE_SIZE, 0), (i * SQUARE_SIZE, HEIGHT), 15)
+            pygame.draw.line(self.screen, LINE_COLOR, (i * SQUARE_SIZE, 0), (i * SQUARE_SIZE, WIDTH), 10)
 
         for i in range(9):
             for j in range(9):
                 self.cells[i][j].draw()
 
-
     def select(self, row, col):
-        pass
+        self.cells[row][col].selected = True
+        return self.cells[row][col]
 
     def click(self, x, y):
         pass
