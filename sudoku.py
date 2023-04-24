@@ -3,10 +3,11 @@ from constants import *
 from sudoku_generator import *
 
 def draw_game_start(screen):
+    screen.fill(BG_COLOR)
     # Initialize title font
     start_title_font_1 = pygame.font.SysFont("comicsansms", 60)
     start_title_font_2 = pygame.font.SysFont("comicsansms", 35)
-    button_font = pygame.font.SysFont("comicsansms", 70)
+    button_font = pygame.font.SysFont("comicsansms", 25)
     screen.fill(BG_COLOR)
     # Initialize and draw title
     title_surface_1 = start_title_font_1.render("Welcome to Sudoku", 0, (0, 0, 0))
@@ -31,9 +32,9 @@ def draw_game_start(screen):
     hard_surface.fill(LINE_COLOR)
     hard_surface.blit(hard_text, (10, 10))
     # Initialize button rectangle
-    easy_rectangle = easy_surface.get_rect(center=(WIDTH // 2, HEIGHT // 2 + 25))
+    easy_rectangle = easy_surface.get_rect(center=(WIDTH // 2 - 150, HEIGHT // 2 + 175))
     medium_rectangle = medium_surface.get_rect(center=(WIDTH // 2, HEIGHT // 2 + 175))
-    hard_rectangle = hard_surface.get_rect(center=(WIDTH // 2, HEIGHT // 2 + 325))
+    hard_rectangle = hard_surface.get_rect(center=(WIDTH // 2 + 150, HEIGHT // 2 + 175))
     # Draw buttons
     screen.blit(easy_surface, easy_rectangle)
     screen.blit(medium_surface, medium_rectangle)
@@ -75,10 +76,31 @@ if __name__ == '__main__':
     screen = pygame.display.set_mode((WIDTH, HEIGHT))
 
     difficulty = draw_game_start(screen)
+    pygame.display.update()
     screen.fill(BG_COLOR)
 
     board_surf = Board(WIDTH, HEIGHT, screen, difficulty)
     board_surf.draw()
+    button_font = pygame.font.SysFont("comicsansms", 25)
+
+    reset_text = button_font.render("Reset", 0, (255, 255, 255))
+    restart_text = button_font.render("Restart", 0, (255, 255, 255))
+    exit_text = button_font.render("Exit", 0, (255, 255, 255))
+    reset_surface = pygame.Surface((reset_text.get_size()[0] + 20, reset_text.get_size()[1] + 20))
+    reset_surface.fill(LINE_COLOR)
+    reset_surface.blit(reset_text, (10, 10))
+    restart_surface = pygame.Surface((restart_text.get_size()[0] + 20, restart_text.get_size()[1] + 20))
+    restart_surface.fill(LINE_COLOR)
+    restart_surface.blit(restart_text, (10, 10))
+    exit_surface = pygame.Surface((exit_text.get_size()[0] + 20, exit_text.get_size()[1] + 20))
+    exit_surface.fill(LINE_COLOR)
+    exit_surface.blit(exit_text, (10, 10))
+    reset_rectangle = reset_surface.get_rect(center=(WIDTH // 2 - 108, HEIGHT // 2 + 300))
+    restart_rectangle = restart_surface.get_rect(center=(WIDTH // 2, HEIGHT // 2 + 300))
+    exit_rectangle = exit_surface.get_rect(center=(WIDTH // 2 + 100, HEIGHT // 2 + 300))
+    screen.blit(reset_surface, reset_rectangle)
+    screen.blit(restart_surface, restart_rectangle)
+    screen.blit(exit_surface, exit_rectangle)
     previous_cell = None
     row = None
     col = None
@@ -105,6 +127,14 @@ if __name__ == '__main__':
                     pass
                 if 0 <= x <= 630 and 0 <= y <= 630:
                     pass
+                if reset_rectangle.collidepoint(event.pos):
+                    board_surf.reset_to_original()
+                    board_surf.draw()
+                elif restart_rectangle.collidepoint(event.pos):
+                    screen.fill(BG_COLOR)
+                    draw_game_start(screen)
+                elif exit_rectangle.collidepoint(event.pos):
+                    sys.exit()
 
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_1:
