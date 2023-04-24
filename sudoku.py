@@ -2,6 +2,7 @@ import pygame, sys
 from constants import *
 from sudoku_generator import *
 
+
 def draw_game_start(screen):
     screen.fill(BG_COLOR)
     # Initialize title font
@@ -51,18 +52,6 @@ def draw_game_start(screen):
                 elif hard_rectangle.collidepoint(event.pos):
                     return 50
         pygame.display.update()
-
-
-def draw_game_over():
-    screen.fill(BG_COLOR)
-    font = pygame.font.SysFont("comicsansms", 100)
-    if board_surf.check_board():
-        end_text = "Game Won!"
-    else:
-        end_text = "Game Over!"
-    end_surf = font.render(end_text, 0, LINE_COLOR)
-    end_rect = end_surf.get_rect(center=(WIDTH // 2, HEIGHT // 2 - 50))
-    screen.blit(end_surf, end_rect)
 
 
 if __name__ == '__main__':
@@ -169,7 +158,45 @@ if __name__ == '__main__':
             if board_surf.is_full():
                 pygame.display.update()
                 pygame.time.delay(1000)
-                draw_game_over()
+                screen.fill(BG_COLOR)
+                font = pygame.font.SysFont("comicsansms", 100)
+                restart2 = True
+                if board_surf.check_board():
+                    won_text = "Game Won!"
+                    won_surf = font.render(won_text, 0, LINE_COLOR)
+                    won_rect = won_surf.get_rect(center=(WIDTH // 2, HEIGHT // 2 - 50))
+                    screen.blit(won_surf, won_rect)
 
+                    exit_text = button_font.render("Exit", 0, (255, 255, 255))
+                    exit_surface = pygame.Surface((exit_text.get_size()[0] + 20, exit_text.get_size()[1] + 20))
+                    exit_surface.fill(LINE_COLOR)
+                    exit_surface.blit(exit_text, (10, 10))
+                    exit_rectangle = exit_surface.get_rect(center=(WIDTH // 2, HEIGHT // 2 + 300))
+                    screen.blit(exit_surface, exit_rectangle)
+
+                else:
+                    lost_text = "Game Over!"
+                    lost_surf = font.render(lost_text, 0, LINE_COLOR)
+                    lost_rect = lost_surf.get_rect(center=(WIDTH // 2, HEIGHT // 2 - 50))
+                    screen.blit(lost_surf, lost_rect)
+
+                    restart_text = button_font.render("Restart", 0, (255, 255, 255))
+                    restart_surface = pygame.Surface((restart_text.get_size()[0] + 20, restart_text.get_size()[1] + 20))
+                    restart_surface.fill(LINE_COLOR)
+                    restart_surface.blit(restart_text, (10, 10))
+                    restart_rectangle = restart_surface.get_rect(center=(WIDTH // 2, HEIGHT // 2 + 300))
+                    screen.blit(restart_surface, restart_rectangle)
+
+                while restart2:
+                    for event in pygame.event.get():
+                        if event.type == pygame.QUIT:
+                            sys.exit()
+                        if event.type == pygame.MOUSEBUTTONDOWN:
+                            if restart_rectangle.collidepoint(event.pos):
+                                restart = False
+                                restart2 = False
+                            elif exit_rectangle.collidepoint(event.pos):
+                                sys.exit()
+                    pygame.display.update()
 
             pygame.display.update()
