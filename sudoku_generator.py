@@ -222,7 +222,7 @@ class Board:
         self.generated = generate_sudoku(9, difficulty)
         self.board = self.generated[1]
         self.solved = self.generated[0]
-        self.original = [i for i in self.board]
+        self.original = [row[:] for row in self.board]
         self.cells = [[Cell(self.board[row][col], row, col, self.screen)
                        for col in range(9)]
                       for row in range(9)]
