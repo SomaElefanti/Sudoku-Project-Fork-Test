@@ -237,8 +237,9 @@ class Board:
             pygame.draw.line(self.screen, LINE_COLOR, (i * SQUARE_SIZE, 0), (i * SQUARE_SIZE, WIDTH), 10)
 
     def select(self, row, col):
-        self.cells[row][col].selected = True
-        return self.cells[row][col]
+        if 0 <= row <= 8 and 0 <= col <= 8:
+            self.cells[row][col].selected = True
+            return self.cells[row][col]
 
     def click(self, x, y):
         if 0 <= x <= 630 and 0 <= y <= 630:
